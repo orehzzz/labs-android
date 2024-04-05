@@ -17,6 +17,7 @@
             android:layout_alignParentStart="true"
             android:layout_marginHorizontal="5dp"
             android:text="Left 50%"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/topRight"
             app:layout_constraintStart_toStartOf="parent"
@@ -29,6 +30,7 @@
             android:layout_alignParentEnd="true"
             android:layout_marginHorizontal="5dp"
             android:text="Right 50%"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/topLeft"
@@ -42,6 +44,7 @@
         android:layout_height="wrap_content"
         android:text="Center"
         android:layout_centerInParent="true"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         />
 
     <Button
@@ -51,6 +54,7 @@
         android:layout_centerVertical="true"
         android:layout_toEndOf="@id/center"
         android:layout_marginHorizontal="5dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         />
 
     <Button
@@ -60,6 +64,7 @@
         android:layout_centerVertical="true"
         android:layout_toStartOf="@id/center"
         android:layout_marginHorizontal="5dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         />
 
     <Button
@@ -68,5 +73,6 @@
         android:text="Bottom"
         android:layout_alignParentBottom="true"
         android:layout_marginHorizontal="5dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         />
 </RelativeLayout>

@@ -23,7 +23,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_default="percent"
-            app:layout_constraintWidth_percent="0.30" />
+            app:layout_constraintWidth_percent="0.30"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
 
         <Button
             android:id="@+id/button2"
@@ -36,7 +37,8 @@
             app:layout_constraintStart_toEndOf="@id/button1"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_default="percent"
-            app:layout_constraintWidth_percent="0.30" />
+            app:layout_constraintWidth_percent="0.30"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
 
         <Button
             android:id="@+id/button3"
@@ -49,7 +51,8 @@
             app:layout_constraintStart_toEndOf="@id/button2"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_default="percent"
-            app:layout_constraintWidth_percent="0.30" />
+            app:layout_constraintWidth_percent="0.30"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -72,7 +75,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_default="percent"
-            app:layout_constraintWidth_percent="0.30" />
+            app:layout_constraintWidth_percent="0.30"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
 
         <Space
             android:id="@+id/spaceBetween_to3_to4"
@@ -83,7 +87,8 @@
             app:layout_constraintStart_toEndOf="@id/button4"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_default="percent"
-            app:layout_constraintWidth_percent="0.03" />
+            app:layout_constraintWidth_percent="0.03"
+            />
 
         <Button
             android:id="@+id/button5"
@@ -96,7 +101,8 @@
             app:layout_constraintStart_toEndOf="@+id/button4"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_default="percent"
-            app:layout_constraintWidth_percent="0.30" />
+            app:layout_constraintWidth_percent="0.30"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -117,7 +123,8 @@
             app:layout_constraintEnd_toStartOf="@id/button7"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintWidth_default="percent"
-            app:layout_constraintWidth_percent="0.24" />
+            app:layout_constraintWidth_percent="0.24"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
 
         <Button
             android:id="@+id/button7"
@@ -130,7 +137,8 @@
             app:layout_constraintEnd_toStartOf="@id/button8"
             app:layout_constraintStart_toEndOf="@id/button6"
             app:layout_constraintWidth_default="percent"
-            app:layout_constraintWidth_percent="0.24" />
+            app:layout_constraintWidth_percent="0.24"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
 
         <Button
             android:id="@+id/button8"
@@ -143,7 +151,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/button7"
             app:layout_constraintWidth_default="percent"
-            app:layout_constraintWidth_percent="0.48" />
+            app:layout_constraintWidth_percent="0.48"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>
