@@ -12,28 +12,28 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="View all entries"
-        app:layout_constraintBottom_toTopOf="@+id/addData"
+        app:layout_constraintBottom_toTopOf="@+id/addEntry"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/addData"
+        android:id="@+id/addEntry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Add an entry"
-        app:layout_constraintBottom_toTopOf="@+id/changeData"
+        app:layout_constraintBottom_toTopOf="@+id/changeEntry"
         app:layout_constraintTop_toBottomOf="@+id/toData"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/changeData"
+        android:id="@+id/changeEntry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Change the last entry"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addData" />
+        app:layout_constraintTop_toBottomOf="@+id/addEntry" />
 </androidx.constraintlayout.widget.ConstraintLayout>
