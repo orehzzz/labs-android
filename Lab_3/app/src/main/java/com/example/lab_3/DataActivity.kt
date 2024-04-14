@@ -19,15 +19,28 @@ class DataActivity: AppCompatActivity(){
 
         val dataAsText = findViewById<View>(R.id.dataAsText) as TextView
 
-        cursor!!.moveToFirst()
-        dataAsText.append(cursor.getString(0)+") "
-                +cursor.getString(1)+"\n"
-                +cursor.getString(2)+"\n")
+        if (cursor != null){
+            dataAsText.append("cursor != null")
+        }
+        if (cursor!!.moveToFirst().not()){
+            dataAsText.append("cursor empty")
+        }
+        if (cursor != null && cursor.moveToFirst()) {
+            dataAsText.append(
+                cursor.getString(0) + ") "
+                        + cursor.getString(1) + "\n"
+                        + cursor.getString(2) + "\n"
+            )
+            while(cursor.moveToNext()){
+                dataAsText.append(cursor.getString(0)+") "
+                        +cursor.getString(1)+"\n"
+                        +cursor.getString(2)+"\n")
+            }
 
-        while(cursor.moveToNext()){
-            dataAsText.append(cursor.getString(0)+") "
-                    +cursor.getString(1)+"\n"
-                    +cursor.getString(2)+"\n")
+            cursor.close()
+        }
+        else{
+            dataAsText.append(cursor.toString())
         }
 
         cursor.close()
