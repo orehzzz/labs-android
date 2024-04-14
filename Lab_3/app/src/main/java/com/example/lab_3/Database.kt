@@ -10,14 +10,12 @@ import android.provider.BaseColumns
 class DatabaseHelper(context:Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
     companion object FeedEntry : BaseColumns {
         const val DATABASE_NAME = "lab_3.db"
-        var DATABASE_VERSION = 7
+        var DATABASE_VERSION = 10
         var TABLE_NAME = "Одногрупники"
         var COLUMN_ID = "id"
-        var COLUMN_INITIALS = "initials" //later = ""
+        var COLUMN_INITIALS = "initials"
         var COLUMN_TIME_CREATED = "time_created"
-        var COLUMN_NAME = "" //later = "name"
-        var COLUMN_SURNAME = "" //later = "surname"
-        var COLUMN_PATRONYMIC = "" //later = "patronymic"
+
     }
 
 
@@ -27,17 +25,9 @@ class DatabaseHelper(context:Context) : SQLiteOpenHelper(context, DATABASE_NAME,
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-//        val sqlDeleteTable = "DROP TABLE IF EXISTS $TABLE_NAME"
-//        db?.execSQL(sqlDeleteTable)
-//
-//        COLUMN_ID = "id"
-//        COLUMN_INITIALS = ""
-//        COLUMN_NAME = "name"
-//        COLUMN_SURNAME = "surname"
-//        COLUMN_PATRONYMIC = "patronymic"
-//
-//        val sqlCreateTable = """CREATE TABLE $TABLE_NAME ($COLUMN_ID INTEGER PRIMARY KEY AUTOINCREMENT, $COLUMN_SURNAME TEXT, $COLUMN_NAME TEXT, $COLUMN_PATRONYMIC TEXT,$COLUMN_TIME_CREATED DATETIME DEFAULT CURRENT_TIMESTAMP)"""
-//        db?.execSQL(sqlCreateTable)
+        val sqlDeleteTable = "DROP TABLE IF EXISTS $TABLE_NAME"
+        db?.execSQL(sqlDeleteTable)
+        onCreate(db)
     }
 
     fun deleteAllEntries(){

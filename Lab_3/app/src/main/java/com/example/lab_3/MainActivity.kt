@@ -12,7 +12,7 @@ class MainActivity: AppCompatActivity(){
 
         val dbHelper = DatabaseHelper(this)
 
-//        dbHelper.deleteAllEntries()
+        dbHelper.deleteAllEntries()
 
         dbHelper.addEntry("Олег Олег Олегович")
         dbHelper.addEntry("Назар Назар Назарович")
