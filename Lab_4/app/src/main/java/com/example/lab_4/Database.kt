@@ -1,11 +1,14 @@
 package com.example.lab_4
 
+import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.database.Cursor
+import android.database.sqlite.SQLiteConstraintException
 import android.provider.BaseColumns
+import android.util.Log
 import androidx.core.database.getIntOrNull
 
 class DatabaseHelper(context:Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
@@ -20,7 +23,7 @@ class DatabaseHelper(context:Context) : SQLiteOpenHelper(context, DATABASE_NAME,
     }
 
     override fun onCreate(db: SQLiteDatabase?) {
-        val sqlCreateTable = """CREATE TABLE $TABLE_NAME ($COLUMN_ID INTEGER PRIMARY KEY AUTOINCREMENT,$COLUMN_ARTIST TEXT, $COLUMN_TITLE TEXT,$COLUMN_TIME_CREATED DATETIME DEFAULT CURRENT_TIMESTAMP)"""
+        val sqlCreateTable = """CREATE TABLE $TABLE_NAME ($COLUMN_ID INTEGER PRIMARY KEY AUTOINCREMENT,$COLUMN_ARTIST TEXT, $COLUMN_TITLE TEXT,$COLUMN_TIME_CREATED DATETIME DEFAULT CURRENT_TIMESTAMP, UNIQUE ($COLUMN_TITLE, $COLUMN_ARTIST)) """
         db?.execSQL(sqlCreateTable)
     }
 
@@ -30,16 +33,21 @@ class DatabaseHelper(context:Context) : SQLiteOpenHelper(context, DATABASE_NAME,
         onCreate(db)
     }
 
-    fun addEntry(artist: String, title: String): Int? {
+    @SuppressLint("Range")
+    fun addEntry(artist: String, title: String): Int {
+        val cursor = getEntry()
+        cursor?.moveToLast()
+        if (cursor?.getString(1) == artist && cursor?.getString(2)== title){
+            cursor.close()
+            return -1
+        }
         val values = ContentValues()
         values.put(COLUMN_ARTIST, artist)
         values.put(COLUMN_TITLE, title)
         val db = this.writableDatabase
-        db.insert(TABLE_NAME, null, values)
-        db.close()
-        val cursor = getEntry()
-        cursor?.moveToLast()
-        return cursor?.getIntOrNull(0) //returns id of last(new) entry
+        val id = db.insert(TABLE_NAME, null, values)
+        cursor?.close()
+        return id.toInt()
     }
 
     fun getEntry(): Cursor? {
