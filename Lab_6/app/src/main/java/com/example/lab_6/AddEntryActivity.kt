@@ -17,6 +17,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 var setMinute: Int? = null
 var setHour: Int? = null
@@ -28,6 +29,7 @@ class AddEntryActivity:AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.add_entry)
+        supportActionBar?.hide()
         findViewById<Button>(R.id.pick_time).setOnClickListener{
             TimePickerFragment().show(supportFragmentManager, "timePicker")
         }
@@ -36,29 +38,34 @@ class AddEntryActivity:AppCompatActivity() {
         }
 
         findViewById<Button>(R.id.create).setOnClickListener{
-            try {
-                val datetime = LocalDateTime.of(setYear!!, setMonth!!, setDay!!, setHour!!, setMinute!!)
-                val title = findViewById<EditText>(R.id.input_body).text.toString()
-                val body = findViewById<EditText>(R.id.input_title).text.toString()
-
-                if(title.isEmpty() || body.isEmpty()){
-                    throw NullPointerException()
-                }
-
-                val db = DatabaseHelper(this)
-                db.addEntry(title, body, datetime)
-
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
-            }
-            catch(e:NullPointerException){
-                Toast.makeText(this@AddEntryActivity, "Fill all the fields first", Toast.LENGTH_SHORT).show()
-            }
-            catch(e: Exception){
-                Log.i("INFO", "Bad date")
-            }
+            onCreateButton()
         }
     }
+
+    private fun onCreateButton(){
+        try {
+            val datetime = LocalDateTime.of(setYear!!, setMonth!!, setDay!!, setHour!!, setMinute!!)
+            val title = findViewById<EditText>(R.id.input_body).text.toString()
+            val body = findViewById<EditText>(R.id.input_title).text.toString()
+
+            if(title.isEmpty() || body.isEmpty()){
+                throw NullPointerException()
+            }
+
+            val db = DatabaseHelper(this)
+            db.addEntry(title, body, datetime)
+
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+        catch(e:NullPointerException){
+            Toast.makeText(this@AddEntryActivity, "Fill all the fields first", Toast.LENGTH_SHORT).show()
+        }
+        catch(e: Exception){
+            Log.i("INFO", "Bad date")
+        }
+    }
+
 }
 class TimePickerFragment : DialogFragment(), TimePickerDialog.OnTimeSetListener {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -68,7 +75,7 @@ class TimePickerFragment : DialogFragment(), TimePickerDialog.OnTimeSetListener 
         val minute = c.get(Calendar.MINUTE)
 
         // Create a new instance of TimePickerDialog and return it.
-        return TimePickerDialog(activity, this, hour, minute, DateFormat.is24HourFormat(activity))
+        return TimePickerDialog(activity, this, hour, minute, true)
     }
 
     override fun onTimeSet(view: TimePicker, hour: Int, minute: Int) {

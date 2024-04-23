@@ -45,18 +45,18 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ScrollView
-        app:layout_constraintTop_toBottomOf="@+id/head_panel"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/head_panel">
 
         <LinearLayout
             android:id="@+id/container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#FFF7D3"
+            android:backgroundTint="#FFF7D3"
+            android:divider="@drawable/empty_tall_divider"
+            android:orientation="vertical"
             android:padding="15dp"
-            android:orientation="horizontal">
-
-        </LinearLayout>
+            android:showDividers="middle" />
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

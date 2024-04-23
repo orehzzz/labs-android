@@ -1,5 +1,8 @@
 package com.example.lab_6
 
+import android.annotation.SuppressLint
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -7,9 +10,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet.Layout
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class MainActivity:AppCompatActivity() {
 
@@ -17,6 +23,7 @@ class MainActivity:AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main)
+        supportActionBar?.hide()
 
         val addEntryButton = findViewById<Button>(R.id.add_entry_button)
         addEntryButton.setOnClickListener {
@@ -26,8 +33,17 @@ class MainActivity:AppCompatActivity() {
 
         showInitialData()
 
+//        // Create the NotificationChannel.
+//        val importance = NotificationManager.IMPORTANCE_HIGH
+//        val mChannel = NotificationChannel("1", "Reminders", importance)
+//        val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+//        notificationManager.createNotificationChannel(mChannel)
+
     }
 
+
+
+    @SuppressLint("SetTextI18n")
     private fun showInitialData(){
         val linearLayout: LinearLayout = findViewById(R.id.container)
         val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -35,20 +51,33 @@ class MainActivity:AppCompatActivity() {
         val cursor = dbHelper.getCursor()
         cursor!!.moveToFirst()
 
-        if (!cursor.isAfterLast){
+        while (!cursor.isAfterLast){
+            Log.i("DATA", cursor.getString(1))
             Log.i("INFO", "+1 cursor move")
+
             val view = inflater.inflate(R.layout.little_entry, linearLayout, false)
+            view.findViewById<TextView>(R.id.title).text = cursor.getString(1)
+
+            val datetime = LocalDateTime.parse(cursor.getString(3), DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+            val time = datetime.format(DateTimeFormatter.ISO_LOCAL_TIME)
+            val date = datetime.format(DateTimeFormatter.ISO_LOCAL_DATE)
+            view.findViewById<TextView>(R.id.time_text).text = """$time $date"""
+
+            val intent = Intent(this, EntryActivity::class.java)
+            intent.putExtra("id", cursor.getInt(0))
+            intent.putExtra("title", cursor.getString(1))
+            intent.putExtra("body", cursor.getString(2))
+            intent.putExtra("time", time)
+            intent.putExtra("date", date)
+
             linearLayout.addView(view)
+            view.setOnClickListener {
+                startActivity(intent)
+            }
+
             cursor.moveToNext()
         }
 
         cursor.close()
-// Assuming you have a LinearLayout defined in your layout XML file with id "linear_layout"
-
-// Initialize LayoutInflater
-
-// Inflate the XML file into the LinearLayout
-
-// Add the inflated view to the LinearLayout
     }
 }
