@@ -1,8 +1,10 @@
 package com.example.lab_6
 
 import android.annotation.SuppressLint
+import android.app.AlarmManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -12,14 +14,14 @@ import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.constraintlayout.widget.ConstraintSet.Layout
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.util.Calendar
 
 class MainActivity:AppCompatActivity() {
 
     private val dbHelper = DatabaseHelper(this)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main)
@@ -33,15 +35,17 @@ class MainActivity:AppCompatActivity() {
 
         showInitialData()
 
-//        // Create the NotificationChannel.
-//        val importance = NotificationManager.IMPORTANCE_HIGH
-//        val mChannel = NotificationChannel("1", "Reminders", importance)
-//        val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-//        notificationManager.createNotificationChannel(mChannel)
+        createNotificationChannel()
 
     }
 
 
+    private fun createNotificationChannel(){
+        val importance = NotificationManager.IMPORTANCE_HIGH
+        val channel = NotificationChannel("channel1", "Reminders", importance)
+        val notificationManager = getSystemService(AppCompatActivity.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.createNotificationChannel(channel)
+    }
 
     @SuppressLint("SetTextI18n")
     private fun showInitialData(){
@@ -52,8 +56,6 @@ class MainActivity:AppCompatActivity() {
         cursor!!.moveToFirst()
 
         while (!cursor.isAfterLast){
-            Log.i("DATA", cursor.getString(1))
-            Log.i("INFO", "+1 cursor move")
 
             val view = inflater.inflate(R.layout.little_entry, linearLayout, false)
             view.findViewById<TextView>(R.id.title).text = cursor.getString(1)

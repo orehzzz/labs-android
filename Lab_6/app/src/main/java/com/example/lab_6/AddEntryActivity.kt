@@ -1,13 +1,16 @@
 package com.example.lab_6
 
+import android.annotation.SuppressLint
+import android.app.AlarmManager
 import android.app.DatePickerDialog
 import android.app.Dialog
+import android.app.PendingIntent
 import android.app.TimePickerDialog
+import android.content.Context
 import android.content.Intent
 
 import android.icu.util.Calendar
 import android.os.Bundle
-import android.text.format.DateFormat
 import android.util.Log
 import android.widget.Button
 import android.widget.DatePicker
@@ -17,7 +20,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 var setMinute: Int? = null
 var setHour: Int? = null
@@ -42,11 +44,12 @@ class AddEntryActivity:AppCompatActivity() {
         }
     }
 
+    @SuppressLint("ScheduleExactAlarm")
     private fun onCreateButton(){
         try {
             val datetime = LocalDateTime.of(setYear!!, setMonth!!, setDay!!, setHour!!, setMinute!!)
-            val title = findViewById<EditText>(R.id.input_body).text.toString()
-            val body = findViewById<EditText>(R.id.input_title).text.toString()
+            val title = findViewById<EditText>(R.id.input_title).text.toString()
+            val body = findViewById<EditText>(R.id.input_body).text.toString()
 
             if(title.isEmpty() || body.isEmpty()){
                 throw NullPointerException()
@@ -55,15 +58,52 @@ class AddEntryActivity:AppCompatActivity() {
             val db = DatabaseHelper(this)
             db.addEntry(title, body, datetime)
 
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            Log.i("INFO","before notification logic")
+
+
+            val calendar = java.util.Calendar.getInstance()
+            calendar.set(setYear!!, setMonth!!, setDay!!, setHour!!, setMinute!!)
+            val time = calendar.timeInMillis
+
+            Log.i("Time now", System.currentTimeMillis().toString())
+            Log.i("Time set",time.toString())
+
+
+            val intent = Intent(applicationContext, NotificationRetranslator::class.java)
+            intent.putExtra("title", title)
+
+            val pendingIntent = PendingIntent.getBroadcast(
+                applicationContext,
+                100,
+                intent,
+                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+            )
+
+            // Get the selected time and schedule the notification
+            val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            alarmManager.setExact(
+                AlarmManager.RTC_WAKEUP,
+                time,
+                pendingIntent
+            )
+
+            Log.i("INFO","after notification logic")
+
+
+            val returnToMain = Intent(this, MainActivity::class.java)
+            startActivity(returnToMain)
         }
         catch(e:NullPointerException){
             Toast.makeText(this@AddEntryActivity, "Fill all the fields first", Toast.LENGTH_SHORT).show()
         }
         catch(e: Exception){
-            Log.i("INFO", "Bad date")
+            Log.i("INFO", e.toString())
         }
+
+
+
+
+
     }
 
 }
