@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="15dp"
+    android:background="#FFF7D3"
     tools:ignore="HardcodedText">
 
     <Button
@@ -12,29 +13,37 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Pick time"
+        app:strokeColor="#3A3838"
+        app:strokeWidth="2dp"
         app:layout_constraintBottom_toTopOf="@+id/pick_date"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/body" />
+        app:layout_constraintTop_toBottomOf="@+id/body"
+        android:backgroundTint="@color/material_dynamic_neutral_variant60"/>
 
     <Button
         android:id="@+id/pick_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Pick date"
+        app:strokeColor="#3A3838"
+        app:strokeWidth="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pick_time" />
+        app:layout_constraintTop_toBottomOf="@+id/pick_time"
+        android:backgroundTint="@color/material_dynamic_neutral_variant60"/>
 
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Title:"
+        android:textColor="@color/black"
         android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/body"
         app:layout_constraintEnd_toStartOf="@+id/input_title"
         app:layout_constraintStart_toStartOf="parent"
@@ -43,8 +52,10 @@
     <EditText
         android:id="@+id/input_title"
         android:layout_width="0dp"
+        android:textColor="@color/black"
         android:layout_height="wrap_content"
         android:inputType="text"
+        android:backgroundTint="@color/black"
         app:layout_constraintBottom_toTopOf="@+id/input_body"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/title"
@@ -52,10 +63,13 @@
 
     <TextView
         android:id="@+id/body"
+        android:textColor="@color/black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Message:"
+        android:textAllCaps="false"
         android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/pick_time"
         app:layout_constraintEnd_toStartOf="@+id/input_body"
         app:layout_constraintStart_toStartOf="parent"
@@ -63,6 +77,8 @@
 
     <EditText
         android:id="@+id/input_body"
+        android:textColor="@color/black"
+        android:backgroundTint="@color/black"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:inputType="text"
@@ -77,6 +93,9 @@
         android:layout_height="wrap_content"
         android:text="Create"
         app:layout_constraintBottom_toBottomOf="parent"
+        android:backgroundTint="@color/material_dynamic_neutral_variant60"
+        app:strokeColor="#3A3838"
+        app:strokeWidth="2dp"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

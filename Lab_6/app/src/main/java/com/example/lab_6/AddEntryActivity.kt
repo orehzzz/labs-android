@@ -18,8 +18,10 @@ import android.widget.EditText
 import android.widget.TimePicker
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.TaskStackBuilder
 import androidx.fragment.app.DialogFragment
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 var setMinute: Int? = null
 var setHour: Int? = null
@@ -56,21 +58,36 @@ class AddEntryActivity:AppCompatActivity() {
             }
 
             val db = DatabaseHelper(this)
-            db.addEntry(title, body, datetime)
-
-            Log.i("INFO","before notification logic")
+            val id = db.addEntry(title, body, datetime)
 
 
+            //Create Intent which will open EntryActivity when click on notification, and pass it to retranslator as extra
+            val resultIntent = Intent(this, EntryActivity::class.java)
+
+            resultIntent.putExtra("id", id)
+            resultIntent.putExtra("title", title)
+            resultIntent.putExtra("body", body)
+            val timeForEntry = datetime.format(DateTimeFormatter.ISO_LOCAL_TIME)
+            val dateForEntry = datetime.format(DateTimeFormatter.ISO_LOCAL_DATE)
+            resultIntent.putExtra("time", timeForEntry)
+            resultIntent.putExtra("date", dateForEntry)
+            // Create the TaskStackBuilder.
+            val resultPendingIntent: PendingIntent? = TaskStackBuilder.create(this).run {
+                // Add the intent, which inflates the back stack.
+                addNextIntentWithParentStack(resultIntent)
+                // Get the PendingIntent containing the entire back stack.
+                getPendingIntent(0,
+                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+            }
+
+            //create alarm which retranslator catches? not sure, but works:)
             val calendar = java.util.Calendar.getInstance()
             calendar.set(setYear!!, setMonth!!, setDay!!, setHour!!, setMinute!!)
             val time = calendar.timeInMillis
 
-            Log.i("Time now", System.currentTimeMillis().toString())
-            Log.i("Time set",time.toString())
-
-
             val intent = Intent(applicationContext, NotificationRetranslator::class.java)
             intent.putExtra("title", title)
+            intent.putExtra("intent", resultPendingIntent)
 
             val pendingIntent = PendingIntent.getBroadcast(
                 applicationContext,
@@ -87,8 +104,6 @@ class AddEntryActivity:AppCompatActivity() {
                 pendingIntent
             )
 
-            Log.i("INFO","after notification logic")
-
 
             val returnToMain = Intent(this, MainActivity::class.java)
             startActivity(returnToMain)
@@ -97,16 +112,11 @@ class AddEntryActivity:AppCompatActivity() {
             Toast.makeText(this@AddEntryActivity, "Fill all the fields first", Toast.LENGTH_SHORT).show()
         }
         catch(e: Exception){
-            Log.i("INFO", e.toString())
+            Log.i("ERROR", e.toString())
         }
-
-
-
-
-
     }
-
 }
+
 class TimePickerFragment : DialogFragment(), TimePickerDialog.OnTimeSetListener {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         // Use the current time as the default values for the picker.

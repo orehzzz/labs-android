@@ -18,7 +18,9 @@
 
         <receiver
             android:name=".NotificationRetranslator"
-            android:enabled="true"/>
+            android:enabled="true"
+            android:process=":remote">
+        </receiver>
 
         <activity
             android:name=".MainActivity"
@@ -34,11 +36,13 @@
         <activity
             android:name=".AddEntryActivity"
             android:exported="false"
+            android:parentActivityName=".MainActivity"
             android:theme="@style/Theme.Lab_6"/>
 
         <activity
             android:name=".EntryActivity"
             android:exported="false"
+            android:parentActivityName=".MainActivity"
             android:theme="@style/Theme.Lab_6"/>
 
     </application>
